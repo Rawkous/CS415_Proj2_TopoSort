@@ -1,0 +1,17 @@
+*********** Sample input and output 1 *************
+Enter the file to read data: data1.txt
+
+There are 3 clients in this file
+
+Optimal revenue earned is 220
+Clients contributing to this optimal revenue: 1, 3
+
+*************************************************
+
+********* Sample input and output 2 *********
+Enter the file to read data: data2.txt
+
+There are 5 clients in this file
+
+Optimal revenue earned is 450
+Clients contributing to this optimal revenue: 2, 3, 5
