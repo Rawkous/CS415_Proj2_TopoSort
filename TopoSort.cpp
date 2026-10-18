@@ -44,11 +44,5 @@ vector<int> TopoSortQueue::topoSort(const DAG &dag) {
     }
 }
 
-  // If the topological sort result size is not equal to the number of vertices,
-  // it indicates that there was a cycle in the graph (which shouldn't happen in a DAG).
-  if (topoResult.size() != dag.vertexCount()) {
-    throw runtime_error("Graph is not a DAG; topological sort failed.");
-  }
-
   return topoResult;
 }
