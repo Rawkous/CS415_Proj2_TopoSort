@@ -1,10 +1,26 @@
-/* Finding the optimal revenue (maximum rental)
-Let F(vi) = maximum rent obtained through a path from vertex vi to End.
-  Let the edges out of vertex vi be to the neighboring vertices vm1, vm2, ...., vmk.
-  Note the weight of the edge from vertex vi to each of its neighbors is wi
+#ifndef REVENUEOPTIMIZER_H
+#define REVENUEOPTIMIZER_H
 
-To compute F(vi), we can find the maximum F value obtained from its neighbors and add wi to it.
-  That is, define the recurrence F(vi) = wi + max { F(vm1), F(vm2), ..., F(vmk) }, F(End) = 0.
+#include "DAG.h"
+#include "TopoSort.h"
+#include <vector>
 
-The goal is to compute F(Start) = the maximum rent obtained through a path from vertex Start to End.
-*/
+using namespace std;
+
+
+struct RevenueResult {
+    // F(Start)
+    long long maxRevenue;
+    // in path order, Start/End excluded          
+    vector<int> clientIds;    
+};
+
+class RevenueOptimizer {
+public:
+    // Computes F for every vertex in reverse topological order,
+    // records opt[v], then follows opt from Start to End.
+    static RevenueResult optimize(const DAG& dag, 
+              const std::vector<int>& topoOrder);
+};
+
+#endif // REVENUEOPTIMIZER_H
