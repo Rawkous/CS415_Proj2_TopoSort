@@ -28,6 +28,8 @@ Mathematically, w(Start—> i) = 0
 #include "Client.h"
 #include <vector>
 
+using namespace std;
+
 
 // One directed, weighted edge in the graph in the adjacency list representation of the graph.
 struct Edge {
@@ -46,16 +48,16 @@ public:
 
     int vertexCount() const; // Method to get the number of vertices in the DAG.
 
-    const std::vector<Edge>& neighbors(int vertex) const; // Method to get the neighbors (outgoing edges) of a specified vertex.
+    const vector<Edge>& neighbors(int vertex) const; // Method to get the neighbors (outgoing edges) of a specified vertex.
 
     int inDegree(int vertex) const; // Method to get the in-degree (number of incoming edges) of a specified vertex.
 
 private:
     int numVertices; // The number of vertices in the DAG.
 
-    std::vector<std::vector<Edge>> adjList; // Adjacency list representation of the graph, where each vertex has a list of outgoing edges.
+    vector<vector<Edge>> adjList; // Adjacency list representation of the graph, where each vertex has a list of outgoing edges.
 
-    std::vector<int> inDegrees; // Vector to store the in-degree of each vertex.
+    vector<int> inDegrees; // Vector to store the in-degree of each vertex.
 };
 
 
@@ -69,7 +71,7 @@ inline int endVertex(int numClients) {
 
 
 // Function to construct the DAG from a list of clients. It creates edges based on the clients' rental requests and their time intervals.
-DAG constructDAG(const std::vector<Client>& clients);
+DAG constructDAG(const vector<Client>& clients);
 
 
 #endif // DAG_H
