@@ -1,33 +1,57 @@
-/* Queueu based Topological Sort
+/* Queue based Topological Sort
+*/
 
-**** THe Java Version ****
-static void topsortBFS(Graph G) {   // Topological sort: Queue
-  Queue Q = new LQueue(G.nodeCount());
-  int[] Count = new int[G.nodeCount()];
-  int[] nList;
-  int v;
-  for (v=0; v<G.nodeCount(); v++) { Count[v] = 0; } // Initialize
-  for (v=0; v<G.nodeCount(); v++) { // Process every edge
-    nList = G.neighbors(v);
-    for (int i=0; i< nList.length; i++) {
-      Count[nList[i]]++;            // Add to v's prereq count
+#include "TopoSort.h"
+#include "DAG.h"
+#include <stdexcept>
+
+using namespace std;
+
+
+/*
+Performs topological sorting on the given Directed Acyclic Graph (DAG).
+Returns a vector containing the vertices in topologically sorted order.*/ 
+vector<int> TopoSortQueue::topoSort(const DAG &dag) {
+  
+  // Vector to store the in-degree of each vertex
+  vector<int> inDegree(dag.vertexCount(), 0);
+  // Queue to store vertices with in-degree 0
+  queue<int> zeroInQueue;
+  // Vector to store the topological order
+  vector<int> topoResult;
+
+  // Calculate the in-degree of each vertex
+  for (int v = 0; v < dag.vertexCount(); ++v) {
+    for (const auto &neighbor : dag.neighbors(v)) {
+      inDegree[neighbor.to]++;
     }
   }
-  for (v=0; v<G.nodeCount(); v++) {   // Initialize Queue
-    if (Count[v] == 0) {              // V has no prerequisites
-      Q.enqueue(v);
+
+  // Add all nodes with inDegree 0 to the queue
+  for (int v = 0; v < dag.vertexCount(); ++v) {
+    if (inDegree[v] == 0) {
+      zeroInQueue.push(v);
     }
   }
-  while (Q.length() > 0) {          // Process the vertices
-    v = (Integer)Q.dequeue();
-    printout(v);                    // PreVisit for Vertex V
-    nList = G.neighbors(v);
-    for (int i=0; i< nList.length; i++) {
-      Count[nList[i]]--;            // One less prerequisite
-      if (Count[nList[i]] == 0) {     // This vertex is now free
-        Q.enqueue(nList[i]);
+
+  // Kahn's algorithm for topological sorting (BFS approach)
+  while (!zeroInQueue.empty()) {
+    int top = zeroInQueue.front();
+    zeroInQueue.pop();
+    topoResult.push_back(top);
+    for (const auto &neighbor : dag.neighbors(top)) {
+      inDegree[neighbor.to]--;
+      if (inDegree[neighbor.to] == 0) {
+        zeroInQueue.push(neighbor.to);
       }
     }
-  }
 }
-*/
+
+  // If the topological sort result size is not equal to the number of vertices,
+  // it indicates that there was a cycle in the graph (which shouldn't happen in a DAG).
+  if (topoResult.size() != dag.vertexCount()) {
+    throw runtime_error("Graph is not a DAG; topological sort failed.");
+  }
+
+  return topoResult;
+}
