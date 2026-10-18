@@ -5,12 +5,14 @@
 #include <vector>
 
 #include "fileReader.h"
+#include "Client.h"
+#include "DAG.h"
 
 using namespace std;
 
 // Debug helper for displaying the records loaded from the input file.
 //I AM TESTING PUSH
-void printRecords(const vector<ClientTuple>& records) {
+void printRecords(const vector<tuple<int, int, int>>& records) {
     cout << "Records read: " << records.size() << "\n";
 
     for (size_t i = 0; i < records.size(); ++i) {
@@ -41,7 +43,7 @@ int main(int argc, char* argv[]) {
     }
 
     fileReader reader;
-    vector<ClientTuple> records;
+    vector<tuple<int, int, int>> records;
 
     if (!reader.read(fileName, records)) {
         string testDataPath = "testData/" + fileName;
@@ -52,5 +54,19 @@ int main(int argc, char* argv[]) {
     }
 
     printRecords(records);
+
+    vector<Client> clients;
+    for (size_t i = 0; i < records.size(); ++i) {
+        int start = get<0>(records[i]);
+        int end = get<1>(records[i]);
+        long long revenue = get<2>(records[i]);
+        clients.push_back(Client{static_cast<int>(i + 1), start, end, revenue});
+    }
+
+    DAG graph = DAG::constructDAG(clients);
+    cout << "DAG contains " << graph.vertexCount() << " vertices.\n";
+    
+
+
     return 0;
 }

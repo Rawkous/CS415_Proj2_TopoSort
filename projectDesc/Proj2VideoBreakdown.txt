@@ -1,0 +1,2605 @@
+AI Summary
+Captions
+Discussion
+Notes
+Bookmarks
+Hide
+
+
+
+
+
+
+Hi folks. This video explainsthe project to which
+
+0:02
+
+
+
+requires you to usetopological sorting
+
+0:08
+
+
+
+to compute optimal reward.
+
+0:11
+
+
+
+Or in this case, themaximum revenue photo set
+
+0:15
+
+
+
+of rental units.
+
+0:19
+
+
+
+The problem is, ifyou have EGN clients,
+
+0:21
+
+
+
+I showed over herec1 through cn,
+
+0:26
+
+
+
+each of them, and you
+
+0:31
+
+
+
+have a rental propertywhich you want to rent out.
+
+0:34
+
+
+
+They indicate the start date,
+
+0:36
+
+
+
+the end date of
+
+0:40
+
+
+
+their rental and amountthey are willing to give.
+
+0:42
+
+
+
+We want to schedulesome subsets of
+
+0:45
+
+
+
+these end clients so that we can
+
+0:49
+
+
+
+maximize our LinkedIn amount.
+
+0:51
+
+
+
+Because there could bea clash between them.
+
+0:54
+
+
+
+Some people, wheneverthey want to
+
+0:57
+
+
+
+start and another clientmight want to start,
+
+0:59
+
+
+
+there might be an overlap.
+
+1:02
+
+
+
+We obviously can't have thatonly one client at a time.
+
+1:03
+
+
+
+For this, we need to do
+
+1:07
+
+
+
+some kind of adirected acyclic graph
+
+1:10
+
+
+
+which shows the correlationsbetween different clients.
+
+1:12
+
+
+
+In other words,which clients again
+
+1:17
+
+
+
+be rented out this propertyand which cannot be.
+
+1:20
+
+
+
+For the sake of example,
+
+1:27
+
+
+
+I am going to usethese five glands.
+
+1:29
+
+
+
+The project description onCanvas will take you through
+
+1:34
+
+
+
+the whole process of creatinga directed acyclic graph.
+
+1:38
+
+
+
+Based on this glance.
+
+1:42
+
+
+
+As I was saying, theedges will tell you which
+
+1:44
+
+
+
+clients at the same time part
+
+1:49
+
+
+
+of the solution in the sense
+
+1:55
+
+
+
+that if you want to maximizethis rental amount,
+
+1:57
+
+
+
+which clients canbe bought of that.
+
+2:00
+
+
+
+Just to give a quick example,
+
+2:06
+
+
+
+this client, let's go,
+
+2:08
+
+
+
+let's see one here.
+
+2:10
+
+
+
+C1, c2 starts on the 10th today,
+
+2:15
+
+
+
+and the 40th today.
+
+2:20
+
+
+
+Started at n today andstops at the 20th today.
+
+2:23
+
+
+
+Obviously, you cannot schedule
+
+2:28
+
+
+
+both of these clients in time.
+
+2:30
+
+
+
+Three starts on day 20,
+
+2:32
+
+
+
+ends at the 70 and so on.
+
+2:37
+
+
+
+Now you can see I canschedule C1 and C3 because,
+
+2:40
+
+
+
+oh, actually I cannot.
+
+2:45
+
+
+
+Because S3 startsat 21, ends at 40.
+
+2:46
+
+
+
+There cannot be any overlap.
+
+2:51
+
+
+
+But again, scheduleds2 and S3 together.
+
+2:53
+
+
+
+Because then 20 stops at 20starts the very same day.
+
+3:00
+
+
+
+So this is possible,
+
+3:05
+
+
+
+and that's what you're directed
+
+3:07
+
+
+
+acyclic graphs, which show you.
+
+3:08
+
+
+
+When you read theproject description,
+
+3:12
+
+
+
+you will get some detailedinstructions on how to
+
+3:15
+
+
+
+create a creatordirected acyclic graph.
+
+3:17
+
+
+
+And then how to usethat to basically
+
+3:20
+
+
+
+graph by computing topological
+
+3:24
+
+
+
+sorting on thatdirected acyclic graph
+
+3:27
+
+
+
+and finding the solution.
+
+3:30
+
+
+
+But let me take thisexample further.
+
+3:32
+
+
+
+And I'm going toshare my screen.
+
+3:35
+
+
+
+Right now this is on my iPad,
+
+3:39
+
+
+
+so I'm going to use
+
+3:42
+
+
+
+annotation tool or awhiteboard that I have.
+
+3:43
+
+
+
+Give me one minute.
+
+3:50
+
+
+
+All right, Here we are.
+
+4:08
+
+
+
+I have started off drawingthe directed acyclic graph.
+
+4:11
+
+
+
+Let's look at this on howthis graph came to be.
+
+4:16
+
+
+
+You can see gland.
+
+4:22
+
+
+
+Each client has a vertexassociated with it.
+
+4:24
+
+
+
+The edges that yousee over here,
+
+4:28
+
+
+
+indicating which clients canbe part of the solution.
+
+4:32
+
+
+
+As I mentioned before,
+
+4:39
+
+
+
+C2 and C3, there is anedge from C2 to C3.
+
+4:41
+
+
+
+I'm sorry, it's over here.
+
+4:44
+
+
+
+Because they can be
+
+4:48
+
+
+
+scheduled at the sameone next to each other.
+
+4:50
+
+
+
+They can be partof the solution.
+
+4:54
+
+
+
+Cannot be any edgebetween C1 to C2.
+
+4:56
+
+
+
+Because as I again mentioned,
+
+5:01
+
+
+
+if you look at these numbers,there is an overlap.
+
+5:03
+
+
+
+We cleave the DirectedAcyclic Graph.
+
+5:08
+
+
+
+Make edges to indicatewhen there is no overlap.
+
+5:12
+
+
+
+You can double-check.
+
+5:18
+
+
+
+This C3 to C5,
+
+5:20
+
+
+
+look see 32070 andC5 starts at 70.
+
+5:23
+
+
+
+So yes, we can do that.
+
+5:28
+
+
+
+Can I have an edgefrom C3 to C5?
+
+5:29
+
+
+
+I cannot becausethis ends at 70,
+
+5:33
+
+
+
+this starts at 50.
+
+5:36
+
+
+
+You can see I did nothave any link from C3,
+
+5:38
+
+
+
+C4, or vice versa.
+
+5:42
+
+
+
+Let's do one more check.
+
+5:44
+
+
+
+Let's see if I can do C2 to C4.
+
+5:47
+
+
+
+Again, NCI, I had missed that.
+
+5:50
+
+
+
+I'm glad I caughtthat right now.
+
+5:53
+
+
+
+Ends at 20. BetaC4 starts at 50,
+
+5:56
+
+
+
+so that is definitelypermissible, permissible.
+
+6:01
+
+
+
+I'm basically creating thisdirected acyclic graph.
+
+6:05
+
+
+
+Let me see if anything else.
+
+6:09
+
+
+
+I'm missing.
+
+6:10
+
+
+
+C14 to C5, already checked.
+
+6:11
+
+
+
+C2 to C5, C1 to C2. I cannot.
+
+6:13
+
+
+
+And I think that looksabout right graph.
+
+6:17
+
+
+
+Now I want to, as I said,maximize my rental.
+
+6:21
+
+
+
+So what I'm gonna do iseach of these edges,
+
+6:24
+
+
+
+we'll get a little weightassociated with it,
+
+6:27
+
+
+
+which is the rental amount.
+
+6:30
+
+
+
+The C1 can pay me a $100.
+
+6:31
+
+
+
+So let's put under, over here.
+
+6:34
+
+
+
+Any outgoing edge gets a 150.
+
+6:36
+
+
+
+Let's put 50 here.
+
+6:42
+
+
+
+50, the 53 gives me 70.
+
+6:44
+
+
+
+There's only one outgoing edge.
+
+6:49
+
+
+
+That's interesting.
+
+6:50
+
+
+
+Let's, seems like right.
+
+6:53
+
+
+
+What does else's left?
+
+6:56
+
+
+
+I got C1, C2, C4.
+
+6:58
+
+
+
+C4 gives me a 120,
+
+7:00
+
+
+
+and C5 gives me $200.Put all the weights.
+
+7:03
+
+
+
+Now I wanted to maximizeprobably you can already
+
+7:08
+
+
+
+see that if I take a route,
+
+7:11
+
+
+
+see if I can annotatewhile I'm sharing.
+
+7:16
+
+
+
+It looks like I cannot.
+
+7:22
+
+
+
+All right, so I'mprobably going to
+
+7:32
+
+
+
+use a different colorthan to show that.
+
+7:35
+
+
+
+Again, see one solutioncould be go from
+
+7:38
+
+
+
+C1 to C3 to get to the end.
+
+7:43
+
+
+
+Now you'll notice I have twoadditional vertices and as
+
+7:48
+
+
+
+in one vertex from
+
+7:52
+
+
+
+which that we'llget an edge from
+
+7:55
+
+
+
+any vertex that did nothave an outgoing edge.
+
+7:58
+
+
+
+So if you see C4 and C5 didnot have an outgoing edge.
+
+8:01
+
+
+
+So I added that edgeto the n vertex.
+
+8:04
+
+
+
+Similarly, start edge, I createstarting vertex and I put
+
+8:06
+
+
+
+edges to any vertex that doesnot have an incoming edge.
+
+8:11
+
+
+
+And c1 and c2 are
+
+8:17
+
+
+
+those two vertices that
+
+8:19
+
+
+
+were originally did nothave any incoming edges.
+
+8:21
+
+
+
+This is just for the ease ofdoing the following steps.
+
+8:23
+
+
+
+Now, I can see if I go to C1,
+
+8:27
+
+
+
+go to C5 and n,
+
+8:32
+
+
+
+I will get a $100from C1 and $200.
+
+8:33
+
+
+
+I'm just looking up,
+
+8:37
+
+
+
+eyeballing it andfiguring out the answer.
+
+8:39
+
+
+
+$300, can I do better?
+
+8:41
+
+
+
+I think so, Yes. If I gostocked clients do three.
+
+8:45
+
+
+
+And client F5, I get fromclients, do I get $50.3?
+
+8:52
+
+
+
+I get 7020 from gland five,
+
+8:57
+
+
+
+I get 200, thatwill give me 320.
+
+9:00
+
+
+
+So it looks like my optimalright now is C2, C3, C5.
+
+9:04
+
+
+
+This first one was C1, C5.
+
+9:10
+
+
+
+Now you can see if I did C1, C4,
+
+9:14
+
+
+
+I will get only $220 ifI go see one another.
+
+9:17
+
+
+
+If it were C to C for 50plus a 120 still 170.
+
+9:22
+
+
+
+C to C5, 50 plus two hundredand two hundred and fifty.
+
+9:28
+
+
+
+So I think I have managed to
+
+9:31
+
+
+
+find out, just eyeballing it.
+
+9:33
+
+
+
+My optimal solutionis C2, C3, C5.
+
+9:36
+
+
+
+But hopefully yousee this can be
+
+9:42
+
+
+
+very expensive if I try tofind all these permutations.
+
+9:45
+
+
+
+And that's what I tried to
+
+9:50
+
+
+
+express in theproject description.
+
+9:52
+
+
+
+If you want to findthis maximum value,
+
+9:54
+
+
+
+we will say let's,
+
+9:58
+
+
+
+let's say f is
+
+9:59
+
+
+
+storing that maximumvalue of some function.
+
+10:02
+
+
+
+F star gives you themaximum value starting from
+
+10:04
+
+
+
+the start vertexto any vertex V.
+
+10:08
+
+
+
+Vi can be any of theseintermediate vertex,
+
+10:11
+
+
+
+gives me the maximum,
+
+10:15
+
+
+
+then starting fromthat vertex, right?
+
+10:16
+
+
+
+So I'm basically, I'mlooking for this,
+
+10:20
+
+
+
+but I can post the problem.
+
+10:22
+
+
+
+If I wanted to find f of
+
+10:24
+
+
+
+v. If I want to find themaximum value of C1,
+
+10:27
+
+
+
+well, I can manage
+
+10:32
+
+
+
+strategy is I can findthe maximum value at C4,
+
+10:33
+
+
+
+find the maximum value of five.
+
+10:36
+
+
+
+So f, Let's makethat more specific.
+
+10:39
+
+
+
+If I wanted to find FC1,
+
+10:43
+
+
+
+I can find fc four,
+
+10:45
+
+
+
+I can find S35.
+
+10:47
+
+
+
+I can take the maximum.
+
+10:50
+
+
+
+I can date themaximum out of them.
+
+10:52
+
+
+
+Because I wanted to get
+
+10:55
+
+
+
+the maximum value at C1and add a 100 to it.
+
+10:58
+
+
+
+Why? Because that's therent I get from client one.
+
+11:00
+
+
+
+Hopefully you will see thisis going towards this idea.
+
+11:05
+
+
+
+If I want to find f valueat a particular vertex,
+
+11:08
+
+
+
+I just look at its neighbors.
+
+11:13
+
+
+
+Let's see for SC2 whatit will look like.
+
+11:15
+
+
+
+I can say, well, give me
+
+11:19
+
+
+
+the maximum value youcan ever get from C4,
+
+11:21
+
+
+
+C5, C3, which is the maximum,
+
+11:25
+
+
+
+add 50 to it.
+
+11:32
+
+
+
+Why? Because 50 is the amountI get for renting out.
+
+11:34
+
+
+
+C2.
+
+11:38
+
+
+
+The idea therefore is,
+
+11:44
+
+
+
+and I've tried to show that
+
+11:46
+
+
+
+mathematically in theproject description.
+
+11:47
+
+
+
+If I want to computethis f of start,
+
+11:50
+
+
+
+I can recursively compute
+
+11:54
+
+
+
+all the f valuesfor it neighbors.
+
+11:56
+
+
+
+That means for f star,
+
+11:59
+
+
+
+I can compute FC1.
+
+12:00
+
+
+
+For FC, for f star,
+
+12:02
+
+
+
+I need to computef s2 for Steven.
+
+12:04
+
+
+
+It's like almost followsthat exact same three.
+
+12:07
+
+
+
+I can compute FC for F, C5, C2.
+
+12:09
+
+
+
+I can compute FC four,
+
+12:16
+
+
+
+fc three, if C5.
+
+12:18
+
+
+
+And now probably youcan already see why
+
+12:21
+
+
+
+the weirdo problemcould be look for C4,
+
+12:23
+
+
+
+C5, thumbs du times.
+
+12:26
+
+
+
+Because I'm doing this bruteforce recursive approach
+
+12:29
+
+
+
+like the Fibonacci sequence.
+
+12:33
+
+
+
+I need to be smart.
+
+12:35
+
+
+
+I don't want to recompute these
+
+12:37
+
+
+
+otherwise as this is just five
+
+12:38
+
+
+
+guidelines I'm gonna have chosen
+
+12:40
+
+
+
+client is going toblow up exponentially.
+
+12:41
+
+
+
+We need a strategy.
+
+12:44
+
+
+
+And that's where topologicalsorting comes into play.
+
+12:46
+
+
+
+Topological sorting is, well,
+
+12:50
+
+
+
+I know that if I applytopological sorting,
+
+12:53
+
+
+
+I will get a sequenceof vertices that
+
+12:57
+
+
+
+ensures that for anyedge in this graph,
+
+13:00
+
+
+
+the first vertex ofthat edge comes before.
+
+13:05
+
+
+
+The second vertex. I know in
+
+13:11
+
+
+
+which order I need tocompute this F-value is.
+
+13:13
+
+
+
+I don't need to gofrom the start.
+
+13:15
+
+
+
+I can go from the reverse.
+
+13:17
+
+
+
+That did not make sense.
+
+13:19
+
+
+
+Let's do a topologicalsorting on this graph.
+
+13:21
+
+
+
+I can apply toalgorithm there is
+
+13:25
+
+
+
+the DFS based algorithm.
+
+13:27
+
+
+
+Apply DFS, Find thepopping or reverse it,
+
+13:31
+
+
+
+or there is the cubist decrease
+
+13:35
+
+
+
+by one algorithm whichwas fine sources.
+
+13:39
+
+
+
+The one source that I havedone by design is the start.
+
+13:42
+
+
+
+Start is the first vertex.
+
+13:46
+
+
+
+Then add into Qthe other sources.
+
+13:50
+
+
+
+So I'm not going todo the whole process.
+
+13:54
+
+
+
+In fact, after start,
+
+13:55
+
+
+
+remember the whole pointwas to remove the edges.
+
+13:57
+
+
+
+This is the biological sorting.
+
+13:59
+
+
+
+I can remove these edgesand I will see C1 and C2
+
+14:00
+
+
+
+will be my next sources.
+
+14:04
+
+
+
+They don't have anyincoming edges.
+
+14:07
+
+
+
+I can go that process,
+
+14:10
+
+
+
+but I'm just going to eyeballright now and just make
+
+14:11
+
+
+
+sure that my atopological sorting,
+
+14:14
+
+
+
+I have at least oneorder that works.
+
+14:17
+
+
+
+C1c2, I think I canput C4, C4, C3.
+
+14:20
+
+
+
+Need to make sure C5 comes
+
+14:29
+
+
+
+after S3 and c1,and that's true.
+
+14:31
+
+
+
+And then finally the end vertex.
+
+14:34
+
+
+
+This is not sayingthis is the output of
+
+14:36
+
+
+
+either the DFS approachor the source degrees
+
+14:39
+
+
+
+by one source and moveit algorithm technique.
+
+14:42
+
+
+
+But it is one topological
+
+14:45
+
+
+
+sorting which I can eyeballand see how that works.
+
+14:47
+
+
+
+But any edge you cantake any edge C2 to C4.
+
+14:49
+
+
+
+C2 comes before C4,
+
+14:53
+
+
+
+C1, C5, C1 to C5.
+
+14:55
+
+
+
+If one comes before C5b.
+
+14:58
+
+
+
+The strategy is compute
+
+14:59
+
+
+
+this f value that I was
+
+15:02
+
+
+
+talking about inthe reverse order.
+
+15:03
+
+
+
+Of course, f of n is equal to 0.
+
+15:08
+
+
+
+You cannot, you cannot
+
+15:11
+
+
+
+have any money if youstarted at the end,
+
+15:13
+
+
+
+that was the vertex wecreated artificially.
+
+15:15
+
+
+
+That's kind of our base case.
+
+15:18
+
+
+
+I go back, I say,okay, what is f of C5?
+
+15:20
+
+
+
+I can apply that formula.
+
+15:23
+
+
+
+Remember the maxof its neighbors.
+
+15:24
+
+
+
+C5 only has one neighbor.
+
+15:27
+
+
+
+And we know f n is 0.
+
+15:30
+
+
+
+So it's just basically,
+
+15:32
+
+
+
+there's nothing to compute max,
+
+15:35
+
+
+
+but I need to add 202.
+
+15:36
+
+
+
+Let's go back C3, S3.
+
+15:39
+
+
+
+It looks like S3 also has
+
+15:44
+
+
+
+only one outgoing neighbor,but just see five.
+
+15:46
+
+
+
+So there's no max to compute.
+
+15:48
+
+
+
+Just take the value of FC 5278,
+
+15:50
+
+
+
+which is the entity threegives me I'm getting to 70.
+
+15:54
+
+
+
+What you will see soon,
+
+15:57
+
+
+
+I'm coming to that point.
+
+15:59
+
+
+
+There is no repetition.
+
+16:00
+
+
+
+Let's go to C4.
+
+16:02
+
+
+
+C4 again. So far it's boring
+
+16:05
+
+
+
+because there's onlyone outgoing edge.
+
+16:08
+
+
+
+F of n is 0. There is no maxto compute and add just 120.
+
+16:10
+
+
+
+That's the rent.
+
+16:15
+
+
+
+I think that was not thefund is gonna begin MHC2.
+
+16:16
+
+
+
+For the first time.I have neighbors C3,
+
+16:20
+
+
+
+C4, and C5 need to take themax of this, which is to 70.
+
+16:25
+
+
+
+To 70 plus the length Iget at C2, which is 5320.
+
+16:32
+
+
+
+I do f of C1.
+
+16:40
+
+
+
+C1, I have twoneighbors, C4 and C5.
+
+16:44
+
+
+
+The max of C4 and C5 is 200,
+
+16:48
+
+
+
+so let's add 200 and thelength I get at C1 is a 100.
+
+16:51
+
+
+
+So that makes me 300
+
+16:56
+
+
+
+view already computedthese values before.
+
+16:58
+
+
+
+So it's not like this.
+
+17:00
+
+
+
+These values are a surprise.
+
+17:01
+
+
+
+But we're just making surewe got the right numbers.
+
+17:03
+
+
+
+But importantly,for each vertex,
+
+17:06
+
+
+
+I had to compute fvalue exactly once.
+
+17:08
+
+
+
+Well, I'm not done yetbecause I need to get
+
+17:11
+
+
+
+the value of f star.
+
+17:13
+
+
+
+That's what we hadafter starting.
+
+17:15
+
+
+
+Will tell me which of thesetwo vertices i will lead
+
+17:18
+
+
+
+to jews from itsmax of C1 or C2.
+
+17:21
+
+
+
+Of course, starting we don't get
+
+17:25
+
+
+
+any rent from that efficientvortex that we created.
+
+17:27
+
+
+
+So I'm going to add 0there, forgotten before,
+
+17:31
+
+
+
+0 plus max of C1 or C2,
+
+17:34
+
+
+
+which is basically 320.
+
+17:37
+
+
+
+This tells me basically that
+
+17:39
+
+
+
+my accidental thatI can ever get.
+
+17:42
+
+
+
+And the approach, because Idid the topological sorting,
+
+17:44
+
+
+
+I had to only computethe F value once.
+
+17:49
+
+
+
+Of course, I'll have to storethese values in an edit.
+
+17:52
+
+
+
+Because in order to preventus finding the max values,
+
+17:56
+
+
+
+I need to be ableto retrieve them
+
+17:59
+
+
+
+so they're allstored in an area.
+
+18:01
+
+
+
+Again, I've already mentioned
+
+18:02
+
+
+
+that in the project inspiration.
+
+18:03
+
+
+
+That's the major part of it.
+
+18:05
+
+
+
+You will need to implement
+
+18:08
+
+
+
+a topological sorting algorithm.
+
+18:10
+
+
+
+You will need to implementdirected acyclic graph.
+
+18:12
+
+
+
+You can store it in a matrix.
+
+18:14
+
+
+
+If you store it asan adjacency list,
+
+18:16
+
+
+
+you get extra credit.
+
+18:18
+
+
+
+If you use the decreaseby one source or
+
+18:19
+
+
+
+mode algorithm to compute
+
+18:22
+
+
+
+the biological settingsorting, you get extra credit.
+
+18:24
+
+
+
+Getting you motivationin the most basic form.
+
+18:26
+
+
+
+Matrix.
+
+18:30
+
+
+
+Representation of graph is
+
+18:32
+
+
+
+very simple to doand find it simple.
+
+18:34
+
+
+
+Doing a DFS on agraph-based is also simple.
+
+18:36
+
+
+
+It's squared, but that's okay.
+
+18:40
+
+
+
+The squared is notthat bad also.
+
+18:43
+
+
+
+But if you go on the list side,
+
+18:46
+
+
+
+you will get extra creditfor attempting them.
+
+18:50
+
+
+
+There's only one last thingto remember here is the bat,
+
+18:52
+
+
+
+I got the maximum value,
+
+18:56
+
+
+
+but I haven'tretrieved the path.
+
+18:57
+
+
+
+What are the set of vertices?
+
+19:00
+
+
+
+What are the clients that will
+
+19:02
+
+
+
+give me that optimalvalue of 320?
+
+19:04
+
+
+
+Eyeballing it. We know320 got from C2, C3, C5.
+
+19:07
+
+
+
+That's my final answer.
+
+19:11
+
+
+
+But algorithmically, it isgoing to be very simple.
+
+19:13
+
+
+
+We just need to keepin mind that as I
+
+19:18
+
+
+
+was computing these f values,
+
+19:20
+
+
+
+I also store thevertex that gave me
+
+19:22
+
+
+
+that maximum F value.What does that mean?
+
+19:26
+
+
+
+I'm going to probably usea different color here.
+
+19:30
+
+
+
+When I was at EC2.
+
+19:32
+
+
+
+Remember, I got do
+
+19:36
+
+
+
+70 is the maximum value
+
+19:38
+
+
+
+from which vertexI got it from S3.
+
+19:40
+
+
+
+I'm going to store this.
+
+19:43
+
+
+
+I'm going to store itin different areas.
+
+19:45
+
+
+
+So let's write it overright on top of here, S3,
+
+19:47
+
+
+
+give me that willnot probably work.
+
+19:50
+
+
+
+So let's, let me see ifthat is not a good idea.
+
+19:54
+
+
+
+Let's see if this might work.
+
+20:03
+
+
+
+That's, it goes back to 70.
+
+20:12
+
+
+
+And I'm just going to say, Hey,
+
+20:15
+
+
+
+I got this from cto d. Of course,
+
+20:17
+
+
+
+when you want something to work,
+
+20:21
+
+
+
+it's not going to work.
+
+20:23
+
+
+
+Let's see if the red oneworks. Yes, it does.
+
+20:25
+
+
+
+It says, well asthe purple one, S3.
+
+20:28
+
+
+
+Let's see if we can makesense of this trunk.
+
+20:32
+
+
+
+C one, which one gaveme the max I got 200.
+
+20:34
+
+
+
+Did C4 give me 200 or C5?
+
+20:38
+
+
+
+C5 given me a 100.
+
+20:40
+
+
+
+Okay, so let's seeif I can do this for
+
+20:41
+
+
+
+each of these vertices.
+
+20:44
+
+
+
+Which one contributed the max?
+
+20:47
+
+
+
+I'm going to goback to my black.
+
+20:50
+
+
+
+Even though it's nota different color,
+
+20:54
+
+
+
+everything, at least it'smore easily visible.
+
+20:56
+
+
+
+For the ones thatare bottom here.
+
+20:59
+
+
+
+S4 was obviously just end.
+
+21:01
+
+
+
+It. There was only one vertexthat kind of led the end.
+
+21:05
+
+
+
+S3 got from C5.
+
+21:08
+
+
+
+If you remember, there's
+
+21:11
+
+
+
+only one vertexthat is outgoing,
+
+21:12
+
+
+
+so there is no choice.
+
+21:14
+
+
+
+There was no choice there.
+
+21:16
+
+
+
+And C5, and I note that down.
+
+21:17
+
+
+
+Note the vertex which contributorto that maximum value.
+
+21:21
+
+
+
+Then I just go and follow
+
+21:25
+
+
+
+this path startingfrom the start vertex.
+
+21:29
+
+
+
+The vertex will I still need to
+
+21:32
+
+
+
+do that at the start vertex a,
+
+21:34
+
+
+
+C1 or C2, which onegave me the max?
+
+21:35
+
+
+
+C2, give me the max rate.
+
+21:38
+
+
+
+So let's put over here C2.
+
+21:40
+
+
+
+Just going to follow this.
+
+21:43
+
+
+
+Stocked.
+
+21:45
+
+
+
+Watch that this is gonna bethe fun part from start node,
+
+21:47
+
+
+
+which would giveme the maximum C2.
+
+21:52
+
+
+
+I go to C2 and I look which
+
+21:54
+
+
+
+vertex given themaximum or their S3.
+
+21:57
+
+
+
+I go to S3, which will takes,
+
+22:00
+
+
+
+did you give methe max there, C5.
+
+22:03
+
+
+
+I go to see five which
+
+22:06
+
+
+
+will give me themax leaf, the end.
+
+22:08
+
+
+
+And domestic done.
+
+22:11
+
+
+
+There you go. I got my answer.
+
+22:12
+
+
+
+The slight minus changein the algorithm.
+
+22:16
+
+
+
+Or while you'recomputing this f values,
+
+22:21
+
+
+
+you need to just store thevertex that resulted in that,
+
+22:23
+
+
+
+the max part of the expressionthat will give you.
+
+22:27
+
+
+
+And then you justfollow that path
+
+22:32
+
+
+
+down and gives youthe optimal value.
+
+22:33
+
+
+
+On that note, I willconclude this video.
+
+22:37
+
+
+
+If after this process,
+
+22:41
+
+
+
+some things are not clear.
+
+22:43
+
+
+
+Do not hesitate to shareyour questions on Piazza.

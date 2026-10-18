@@ -1,0 +1,189 @@
+Motivation
+Suppose you have a rental property for which you have received requests from potential clients in the following form: (start date, end date, amount willing to pay). At one time, only one client can use the property and the reward for renting out will be the amount they are willing to offer. Suppose, for example, the property is available over the next 100 days. The start and end dates will, therefore, be integers between 1 and 100. 
+ 
+A sample input could be:Client 1: (10, 40, 100), Client 2: (20, 70, 200), Client 3: (50, 80, 120). The goal is to determine the optimal subset of clients to who you want to rent the property. So basically we are looking for a subset S of {C1, ..., Cn} such that
+(a) pairwise, no two clients in S have overlapping dates and
+(b) the sum of the revenue is as large as possible.
+ 
+In the above example, the optimal solution is {C1, C3} with a revenue of 220. The idea is to create a directed acyclic graph (DAG) in which the length of the longest path between two special vertices (start and end) gives the optimal revenue. 
+ 
+Constructing a DAG
+Each client can be represented as a vertex. Directed edges between clients indicate that there is no conflict between the times they want the rental property.
+ 
+A directed edge from vertex i to vertex j is created if and only if the end date of vertex i is less than or equal to start date of vertex j.That is, if the data (start date, end date, amount willing to pay) for vertices i and j is given by (si, ei, revi) and (sj, ej, revj), respectively, then:  Edge(i —> j) iff ei<= sj
+
+
+In addition, construct two special vertices Start and End with edges from them defined as:There is an edge from vertex i to the End vertex if there is no outgoing edges from vertex i. Mathematically, Edge(i —> end) iff ∄ j s.t. Edge(i—> j)
+There is an edge from the Start vertex to vertex i if there is no incoming edges to vertex i. Mathematically, Edge(start—> i) iff ∄ j s.t. Edge(j—>i)
+
+
+Edge weights: each edge from ( i —> j) has a weight equal to the rental reward at vertex i. Mathematically, w(i—> j) = reviSince the Start vertex has no rental reward, all edges outgoing from Start vertex have a weight equal to zero. Mathematically, w(Start—> i) = 0
+
+
+
+ 
+Finding the optimal revenue (maximum rental)
+Let F(vi) = maximum rent obtained through a path from vertex vi to End.Let the edges out of vertex vi be to the neighboring vertices vm1, vm2, ...., vmk. Note the weight of the edge from vertex vi to each of its neighbors is wi
+
+
+To compute F(vi), we can find the maximum F value obtained from its neighbors and add wi to it.That is, define the recurrence F(vi) = wi + max { F(vm1), F(vm2), ..., F(vmk) }, F(End) = 0.
+
+
+The goal is to compute F(Start) = the maximum rent obtained through a path from vertex Start to End.
+
+You can probably see that computing F(Start) in the brute-force manner will involve several repeated computations F(vj) of intermediate vertices vj and is, thus, very expensive and intractable! (This is similar to the recursive algorithm of computing the Fibonacci sequence). To avoid this huge overhead due to repeated computations, we will devise a strategy based on topological sorting:
+Perform topological sorting on vertices, and pick one such order (Recall, the ordering is not unique, but any order will work).Suppose the order is Start = v0, v1, v2, ..., vn = End. 
+
+
+
+Here is the strategy: For each vertex vi, in the above list of topologically sorted, we will compute F(vi) in REVERSE order starting from the End vertex. Store the value of F(vi) in a list/array.
+Why would this be more efficient? Because to compute F(vi) we only need the F value of its neighbors F(vm1), F(vm2), ..., F(vmk), and since the vertices are in topologically sorted order, it is guaranteed that those values have already been computed! So, no recomputations!Mathematically, as we go in REVERSE order starting from End vertex and reach F(vi), we have already computed F(vj) for j = i +1, i + 2, ..., n. 
+Since vertices are in topologically sorted order, the neighbors of vi : vm1, vm2, ...., vmk are such that m1, m2, ..., mk are all greater than i. This means that the F values at all the vertices vmi would already have been computed when we reach the vertex vi.
+
+
+
+ 
+Computing the optimal path
+The optimal path from Start to End vertex can be computed very fast as follows:
+Recall, F(vi) = wi + max { F(vm1), F(vm2), ..., F(vmk) },
+Define, opti = arg (wi + max { F(vm1), F(vm2), ..., F(vmk) }), where opti stores the vertex among the k vertices (m1, m2, ..., mk) that gave the MAX value in the above expression.
+To find the optimal path, simply find the sequence of vertices that yielded the value F(Start) beginning from the vertex optStart. Then, iteratively, following the next vertex opti that maximizes F(vi) until the End vertex is reached.
+
+ 
+Time Complexity
+The time complexity of Topological Sorting is O(|E| + |V|) for both the Queue-based Decrease-by-one implementationLinks to an external site. and adjacency-list based DFS based approachLinks to an external site.. Of course, if the graph itself is represented as an adjacency matrix or if |E| = O(|V|2)then the time complexity becomes O(|V|2), which despite being quadratic is pretty fast!
+ 
+Implementation
+Input will be read from a text file where each line will contain the data of a client in the form (s, e, rev).
+Write a function that takes the above input and constructs a DAG. You can store the DAG as an adjacency matrix or as an adjacency list (see Extra Credit below).
+Implement a general-purpose topological sorting method that takes as input the above DAG and returns the sorted list. You may use the DFS based approach or the queue-based approach (see Extra Credit below).
+Output the optimal revenue that can be earned and the set of clients contributing to that revenue (see sample output below).
+
+ 
+Extra Credit (+10)
+Implement the DAG in the adjacency list format (+5).
+Implement the topological sorting method using the queue-based decrease-by-one design method (+5).
+
+ 
+Test Data
+data1.txtDownload data1.txt
+data2.txtDownload data2.txt
+More data with a varying number of clients n:
+data.zipDownload data.zip
+ 
+Sample input and output 1
+Enter the file to read data: data1.txtThere are 3 clients in this fileOptimal revenue earned is 220Clients contributing to this optimal revenue: 1, 3Sample input and output 2
+Enter the file to read data: data2.txtThere are 5 clients in this fileOptimal revenue earned is 450Clients contributing to this optimal revenue: 2, 3, 5Deliverables
+Code with a README file.Indicate your group members.
+Clearly specify if you have implemented as per Extra Credit.
+
+
+Output on the console as indicated above.In addition, code should save the output in a file called "out" + input filename. For example, if input filename is "data3.txt", output filename is "outdata3.txt".
+
+
+Output files should be submitted for each of the test data provided in data.zip above.Note: Your code will be tested on other data files as well.
+
+
+
+
+
+
+
+
+Rubric
+
+Project 02 Rubric (Topological Sorting)
+
+Project 02 Rubric (Topological Sorting)
+CriteriaRatingsPts
+This criterion is linked to a Learning OutcomeREADMEContains all the necessary information required to run the program
+
+
+
+5 ptsFull Marks
+
+
+0 ptsNo Marks
+
+
+
+5 pts
+
+This criterion is linked to a Learning OutcomeOutput files and format-Shows both the optimal revenue and list of clients contributing to the optimal revenue-Includes output files for each of the test data provided in data.zipLinks to an external site.
+
+
+
+15 ptsFull Marks
+
+
+10 ptsPartially correctDoes not include output files for some test data OR has minor error in output
+
+
+5 ptsIncompleteDoes not include output files for some test data AND has minor error in output
+
+
+0 ptsNo MarksDoes not include output files for any test data
+
+
+
+15 pts
+
+This criterion is linked to a Learning OutcomeOutput on test data included in the project descriptionTesting on data3.txt, data5.txt, data7.txt and data9.txt
+
+
+
+40 ptsCorrect on all cases
+
+
+32.5 ptsAlmost workingOutput not generated for one file
+
+
+25 ptsIntermediateCombination of some outputs are incorrect and some outputs are missing
+
+
+10 ptsIncompleteAttempted but no reasonable output
+
+
+0 ptsNo Marks
+
+
+
+40 pts
+
+This criterion is linked to a Learning OutcomeOutput on additional test data (uploaded to project description)Testing on data4.txt, data6.txt, data8.txt and data10.txt
+
+
+
+40 ptsCorrect on all cases
+
+
+32.5 ptsAlmost workingOutput not generated for one file
+
+
+25 ptsIntermediateCombination of some outputs are incorrect and some outputs are missing
+
+
+10 ptsIncompleteAttempted but no reasonable output
+
+
+0 ptsNo Marks
+
+
+
+40 pts
+
+This criterion is linked to a Learning OutcomeExtra Credit Implemented
+
+
+
+20 ptsFull Marks
+
+
+10 ptsPartially completed
+
+
+0 ptsNo Marks
+
+
+
+20 pts

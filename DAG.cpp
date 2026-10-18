@@ -11,7 +11,8 @@ DAG::DAG(int numVertices)
 }
 
 void DAG::addEdge(int from, int to, long long weight) {
-    
+    adjList[from].push_back({to, weight});
+    inDegrees[to]++;
 }
 
 int DAG::vertexCount() const {
@@ -19,17 +20,52 @@ int DAG::vertexCount() const {
 }
 
 const vector<Edge>& DAG::neighbors(int vertex) const {
-    // TODO: Return the outgoing edges for vertex.
-    static const vector<Edge> emptyNeighbors;
-    return emptyNeighbors;
+    return adjList[vertex];
 }
 
 int DAG::inDegree(int vertex) const {
-    // TODO: Return the in-degree for vertex.
+    return inDegrees[vertex];
+}
+
+int DAG::startVertex(int numClients) {
+    (void)numClients;
     return 0;
 }
 
-DAG constructDAG(const vector<Client>& clients) {
-    // TODO: Construct the graph from the client rental requests.
-    return DAG(static_cast<int>(clients.size()) + 2);
+int DAG::endVertex(int numClients) {
+    return numClients + 1;
+}
+
+DAG DAG::constructDAG(const vector<Client>& clients) {
+    /* Client Struct
+    typedef struct {
+    int id;
+    int start;
+    int end;
+    long long revenue;
+    } Client;*/
+
+    int numClients = clients.size();
+    DAG dag(numClients + 2); // +2 for start and end vertices
+    
+    // Add edges from the start vertex to all clients
+    for (const auto& client : clients) {
+        dag.addEdge(startVertex(numClients), client.id, client.revenue);
+    }
+
+    // Add edges between clients based on their rental periods
+    for (size_t i = 0; i < clients.size(); ++i) {
+        for (size_t j = 0; j < clients.size(); ++j) {
+            if (i != j && clients[i].end <= clients[j].start) {
+                dag.addEdge(clients[i].id, clients[j].id, clients[j].revenue);
+            }
+        }
+    }
+    
+    // Add edges from all clients to the end vertex
+    for (const auto& client : clients) {
+        dag.addEdge(client.id, endVertex(numClients), 0);
+    }
+
+    return dag;
 }

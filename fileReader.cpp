@@ -5,7 +5,7 @@
 using namespace std;
 
 bool fileReader::read(const string& fileName,
-                      vector<ClientTuple>& clients) const {
+                      vector<tuple<int, int, int>>& clients) const {
     ifstream input(fileName);
     if (!input) {
         return false;
