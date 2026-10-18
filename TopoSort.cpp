@@ -1,6 +1,3 @@
-/* Queue based Topological Sort
-*/
-
 #include "TopoSort.h"
 #include "DAG.h"
 #include <stdexcept>
