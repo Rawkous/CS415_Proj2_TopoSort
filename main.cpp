@@ -4,7 +4,7 @@
 #include <tuple>
 #include <vector>
 
-#include "fileReader.h"
+#include "FileReader.h"
 #include "Client.h"
 #include "DAG.h"
 
